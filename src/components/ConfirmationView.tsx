@@ -1,16 +1,21 @@
 import React from "react";
-import type { BookingResponse } from "../types/booking";
+import type { BookingDetails } from "../types/booking";
 
 interface ConfirmationViewProps {
-  booking: BookingResponse;
+  booking: BookingDetails;
   onNewBooking: () => void;
 }
 
+
 export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
-  booking,
-  onNewBooking,
-}) => {
-  const dateTime = booking.when.replace("T", " ");
+    booking,
+    onNewBooking,
+  }) => {
+    if (!booking) {
+      return <p>Laddar bekräftelse...</p>;
+    }
+  
+    const dateTime = booking.when.replace("T", " ");
 
   return (
     <section className="confirmation-view">

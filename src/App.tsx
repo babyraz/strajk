@@ -32,10 +32,16 @@ const App: React.FC = () => {
       <main>
         {currentView === "booking" && (
           <BookingView
-            onBookingSuccess={(response) => {
-              setBookingResponse(response);
+          onBookingSuccess={(response) => {
+            console.log("📦 Booking API response:", response);
+          
+            if (response?.bookingDetails) {
+              setBookingResponse(response.bookingDetails); // plocka ut rätt data
               setCurrentView("confirmation");
-            }}
+            } else {
+              console.error("Booking response saknar bookingDetails:", response);
+            }
+          }}
           />
         )}
 

@@ -1,5 +1,5 @@
-import type { BookingRequest, BookingResponse } from "../types/booking";
-
+// src/api/bookingApi.ts
+import type { BookingRequest, ApiResponse } from "../types/booking";
 
 const BASE_URL = "https://731xy9c2ak.execute-api.eu-north-1.amazonaws.com";
 
@@ -9,19 +9,27 @@ async function getApiKey(): Promise<string> {
   if (cachedApiKey) return cachedApiKey;
 
   const res = await fetch(`${BASE_URL}/key`);
+
   if (!res.ok) {
     throw new Error("Kunde inte hämta API-nyckel");
   }
-  const key = await res.text(); // eller res.json() om det är JSON, kolla vad ni fått i instruktionen
+
+  const data = await res.json(); // { key: "strajk-vKkkQHqQboi7c6JF" }
+  const key = data.key;
+
+  if (!key) {
+    throw new Error("API-nyckeln saknas i svaret!");
+  }
+
   cachedApiKey = key;
   return key;
 }
 
 export async function createBooking(
   booking: BookingRequest
-): Promise<BookingResponse> {
+): Promise<ApiResponse> {
   const apiKey = await getApiKey();
-
+  
   const res = await fetch(`${BASE_URL}/booking`, {
     method: "POST",
     headers: {
@@ -32,11 +40,10 @@ export async function createBooking(
   });
 
   if (!res.ok) {
-    // Ungefär var 5:e gång blir det fel enligt specen
-    const text = await res.text().catch(() => "");
-    throw new Error(text || "Ett fel uppstod vid bokningen");
+    const errorData = await res.text();
+    throw new Error(errorData || "Misslyckades med bokningen");
   }
 
-  const data: BookingResponse = await res.json();
+  const data: ApiResponse = await res.json();
   return data;
 }
