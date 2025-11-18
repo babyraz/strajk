@@ -1,15 +1,23 @@
-import React, { useState } from "react";
-import type { BookingResponse } from "./types/booking";
+import React, { useState, useEffect } from "react";
+import type { BookingDetails } from "./types/booking";
 import { BookingView } from "./components/BookingView";
 import { ConfirmationView } from "./components/ConfirmationView";
 import { Menu } from "./components/Menu";
+import { LoadingScreen } from "./components/LoadingScreen";
 
 type View = "booking" | "confirmation";
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>("booking");
-  const [bookingResponse, setBookingResponse] = useState<BookingResponse | null>(null);
+  const [bookingResponse, setBookingResponse] = useState<BookingDetails | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1200);
+  }, []);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <div className="app">
@@ -19,7 +27,6 @@ const App: React.FC = () => {
           aria-label="Öppna meny"
           onClick={() => setMenuOpen((prev) => !prev)}
         >
-          {/* enkel ”hamburger”-ikon */}
           <span />
           <span />
           <span />
@@ -32,16 +39,11 @@ const App: React.FC = () => {
       <main>
         {currentView === "booking" && (
           <BookingView
-          onBookingSuccess={(response) => {
-            console.log("📦 Booking API response:", response);
-          
-            if (response?.bookingDetails) {
-              setBookingResponse(response.bookingDetails); // plocka ut rätt data
+            onBookingSuccess={(booking) => {
+              console.log("📦 Booking details:", booking);
+              setBookingResponse(booking);
               setCurrentView("confirmation");
-            } else {
-              console.error("Booking response saknar bookingDetails:", response);
-            }
-          }}
+            }}
           />
         )}
 

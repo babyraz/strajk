@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import type { BookingRequest, BookingResponse } from "../types/booking";
+import type { BookingRequest, BookingDetails } from "../types/booking";
 import { createBooking } from "../api/bookingApi";
 
 interface BookingViewProps {
-  onBookingSuccess: (booking: BookingResponse) => void;
+  onBookingSuccess: (booking: BookingDetails) => void;
 }
+
 
 const MAX_PER_LANE = 4;
 
@@ -96,7 +97,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
 
     try {
       const response = await createBooking(bookingReq);
-      onBookingSuccess(response);
+      onBookingSuccess(response.bookingDetails);
     } catch (err: any) {
       console.error(err);
       setError("Tyvärr kunde vi inte genomföra din bokning just nu. Försök igen om en liten stund.");
