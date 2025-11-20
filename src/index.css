@@ -313,3 +313,15 @@ body {
   color: var(--pink-dark);
   letter-spacing: 2px;
 }
+
+.menu-link {
+  background: none;
+  border: none;
+  color: var(--pink);
+  font-size: 22px;
+  padding: 10px 0;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+

@@ -14,15 +14,17 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
     if (!booking) {
       return <p>Laddar bekräftelse...</p>;
     }
+
   
     const dateTime = booking.when.replace("T", " ");
 
   return (
     <section className="confirmation-view">
+      <img src="/logo.svg" alt="Strajk logo" />
       <h2>Bokning bekräftad!</h2>
 
       <div className="card">
-        <p><strong>Bokningsnummer:</strong> {booking.id}</p>
+      <p><strong>Bokningsnummer:</strong> {booking.bookingId}</p>
         <p><strong>Datum & tid:</strong> {dateTime}</p>
         <p><strong>Banor:</strong> {booking.lanes}</p>
         <p><strong>Spelare:</strong> {booking.people}</p>

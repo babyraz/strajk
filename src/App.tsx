@@ -17,6 +17,17 @@ const App: React.FC = () => {
     setTimeout(() => setLoading(false), 1200);
   }, []);
 
+  const NoConfirmation = ({ onGoToBooking }: { onGoToBooking: () => void }) => (
+    <section className="confirmation-view">
+      <h2>Ingen bokning hittad</h2>
+      <p>Det finns ingen bekräftelse att visa. Gör en bokning nedan!</p>
+  
+      <button className="strike-button" onClick={onGoToBooking}>
+        Gå till bokning
+      </button>
+    </section>
+  );
+
   if (loading) return <LoadingScreen />;
 
   return (
@@ -34,28 +45,40 @@ const App: React.FC = () => {
         <h1>Strajk Bowling</h1>
       </header>
 
-      <Menu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <Menu 
+          open={menuOpen} 
+          onClose={() => setMenuOpen(false)}
+          onNavigate={(view) => {
+            setCurrentView(view);
+            setMenuOpen(false);
+          }}
+        />
 
       <main>
         {currentView === "booking" && (
           <BookingView
             onBookingSuccess={(booking) => {
-              console.log("📦 Booking details:", booking);
+
               setBookingResponse(booking);
               setCurrentView("confirmation");
             }}
           />
         )}
 
-        {currentView === "confirmation" && bookingResponse && (
-          <ConfirmationView
-            booking={bookingResponse}
-            onNewBooking={() => {
-              setBookingResponse(null);
-              setCurrentView("booking");
-            }}
-          />
+        {currentView === "confirmation" && (
+          bookingResponse ? (
+            <ConfirmationView
+              booking={bookingResponse}
+              onNewBooking={() => {
+                setBookingResponse(null);
+                setCurrentView("booking");
+              }}
+            />
+          ) : (
+            <NoConfirmation onGoToBooking={() => setCurrentView("booking")} />
+          )
         )}
+
       </main>
     </div>
   );

@@ -3,27 +3,41 @@ import React from "react";
 interface MenuProps {
   open: boolean;
   onClose: () => void;
+  onNavigate: (view: "booking" | "confirmation") => void;
 }
-
-export const Menu: React.FC<MenuProps> = ({ open, onClose }) => {
+export const Menu: React.FC<MenuProps> = ({ open, onClose, onNavigate }) => {
   if (!open) return null;
 
   return (
     <div className="menu-overlay" onClick={onClose}>
-      <nav
-        className="menu"
-        onClick={(e) => e.stopPropagation()} // hindra stängning när man klickar i menyn
-      >
-        <button className="menu-close" onClick={onClose} aria-label="Stäng meny">
-          ×
-        </button>
-
+      <nav className="menu" onClick={(e) => e.stopPropagation()}>
         <ul>
-          <li><a href="#booking">Boka</a></li>
-          <li><a href="#prices">Priser</a></li>
-          <li><a href="#contact">Kontakt</a></li>
+          <li>
+            <button
+              className="menu-link"
+              onClick={() => {
+                onNavigate("booking");
+                onClose();
+              }}
+            >
+              Booking
+            </button>
+          </li>
+
+          <li>
+            <button
+              className="menu-link"
+              onClick={() => {
+                onNavigate("confirmation");
+                onClose();
+              }}
+            >
+              Confirmation
+            </button>
+          </li>
         </ul>
       </nav>
     </div>
   );
 };
+

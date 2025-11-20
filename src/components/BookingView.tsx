@@ -97,7 +97,9 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
 
     try {
       const response = await createBooking(bookingReq);
+      
       onBookingSuccess(response.bookingDetails);
+      
     } catch (err: any) {
       console.error(err);
       setError("Tyvärr kunde vi inte genomföra din bokning just nu. Försök igen om en liten stund.");
@@ -108,6 +110,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
 
   return (
     <section className="booking-view">
+      <img src="/logo.svg" alt="Strajk logo" />
       <h2>Boka bana</h2>
       <form onSubmit={handleSubmit}>
         <div className="field">
