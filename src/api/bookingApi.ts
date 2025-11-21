@@ -15,7 +15,6 @@ async function getApiKey(): Promise<string> {
   }
 
   const data = await res.json();
-  console.log("DEBUG KEY RESPONSE:", data);
 
   const key = data.key || data.data?.key;
 
@@ -48,7 +47,6 @@ export async function createBooking(
   }
 
   const json = await res.json();
-  console.log("DEBUG BOOKING RESPONSE:", json);
 
   return json.data || json;
 }

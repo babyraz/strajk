@@ -6,7 +6,6 @@ interface ConfirmationViewProps {
   onNewBooking: () => void;
 }
 
-
 export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
     booking,
     onNewBooking,

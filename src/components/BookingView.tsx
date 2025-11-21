@@ -64,22 +64,22 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
     setError(null);
 
     if (!date || !time) {
-      setFieldError("Välj datum och tid.");
+      setFieldError("Choose date and time.");
       return false;
     }
 
     if (people <= 0 || lanes <= 0) {
-      setFieldError("Antal spelare och banor måste vara minst 1.");
+      setFieldError("Add at least 1 player and lane.");
       return false;
     }
 
     if (people > lanes * MAX_PER_LANE) {
-      setFieldError(`Max ${MAX_PER_LANE} spelare per bana. Öka antal banor eller minska antal spelare.`);
+      setFieldError(`Max ${MAX_PER_LANE} players per lane`);
       return false;
     }
 
     if (shoes.length !== people || shoes.some((s) => s.trim() === "")) {
-      setFieldError("Ange en skostorlek för varje spelare.");
+      setFieldError("Choose a shoe size for each player");
       return false;
     }
 
@@ -89,7 +89,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
     });
 
     if (!allNumbers) {
-      setFieldError("Skostorlekar måste vara positiva heltal.");
+      setFieldError("Not a correct shoe size");
       return false;
     }
 
@@ -118,7 +118,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
       onBookingSuccess(response.bookingDetails);
     } catch (err) {
       console.error(err);
-      setError("Tyvärr kunde vi inte genomföra din bokning just nu. Försök igen om en liten stund.");
+      setError("Your booking could not be processed at the moment. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -17,8 +17,6 @@ export const Menu: React.FC<MenuProps> = ({ open, onClose, onNavigate }) => {
           <span />
         </button>
         <ul>
-
-
           <li>
             <button
               className="menu-link"
