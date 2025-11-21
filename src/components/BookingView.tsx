@@ -6,38 +6,60 @@ interface BookingViewProps {
   onBookingSuccess: (booking: BookingDetails) => void;
 }
 
-
 const MAX_PER_LANE = 4;
 
 export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [lanes, setLanes] = useState(1);
-  const [people, setPeople] = useState(1);
+
+  const [lanesInput, setLanesInput] = useState("1");
+  const lanes = Number(lanesInput) || 0;
+
+  const [peopleInput, setPeopleInput] = useState("1");
+  const people = Number(peopleInput) || 0;
+
   const [shoes, setShoes] = useState<string[]>([""]);
 
   const [error, setError] = useState<string | null>(null);
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Hantera ändring av antal spelare
-  const handlePeopleChange = (value: number) => {
-    const newPeople = Math.max(1, value);
-    setPeople(newPeople);
+  const handlePeopleChange = (raw: string) => {
+    if (raw === "") {
+      setPeopleInput("");
+      setShoes([]);
+      return;
+    }
+
+    const numeric = Number(raw);
+    if (isNaN(numeric) || numeric < 0) return;
+
+    setPeopleInput(raw);
 
     setShoes((prev) => {
       const copy = [...prev];
-      if (newPeople > copy.length) {
-        while (copy.length < newPeople) copy.push("");
-      } else if (newPeople < copy.length) {
-        copy.length = newPeople;
+      if (numeric > copy.length) {
+        while (copy.length < numeric) copy.push("");
+      } else if (numeric < copy.length) {
+        copy.length = numeric;
       }
       return copy;
     });
   };
 
+  const handleLanesChange = (raw: string) => {
+    if (raw === "") {
+      setLanesInput("");
+      return;
+    }
+
+    const numeric = Number(raw);
+    if (isNaN(numeric) || numeric < 0) return;
+
+    setLanesInput(raw);
+  };
+
   const validate = (): boolean => {
-    // Rensa gamla fel
     setFieldError(null);
     setError(null);
 
@@ -51,19 +73,16 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
       return false;
     }
 
-    // Max 4 spelare per bana
     if (people > lanes * MAX_PER_LANE) {
       setFieldError(`Max ${MAX_PER_LANE} spelare per bana. Öka antal banor eller minska antal spelare.`);
       return false;
     }
 
-    // Skor: exakt lika många skostorlekar som spelare och inga tomma
     if (shoes.length !== people || shoes.some((s) => s.trim() === "")) {
       setFieldError("Ange en skostorlek för varje spelare.");
       return false;
     }
 
-    // Kolla att varje skostorlek är ett giltigt nummer
     const allNumbers = shoes.every((s) => {
       const n = Number(s);
       return Number.isInteger(n) && n > 0;
@@ -85,22 +104,19 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
     setError(null);
 
     const when = `${date}T${time}`;
-
     const shoesNumbers = shoes.map((s) => Number(s));
 
     const bookingReq: BookingRequest = {
       when,
-      lanes,
-      people,
+      lanes: Number(lanesInput),
+      people: Number(peopleInput),
       shoes: shoesNumbers,
     };
 
     try {
       const response = await createBooking(bookingReq);
-      
       onBookingSuccess(response.bookingDetails);
-      
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       setError("Tyvärr kunde vi inte genomföra din bokning just nu. Försök igen om en liten stund.");
     } finally {
@@ -112,35 +128,30 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
     <section className="booking-view">
       <img className="logo" src="/logo.svg" alt="Strajk logo" />
       <h2>Booking</h2>
+
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="date">Date</label>
-          <input
-            id="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
 
         <div className="field">
           <label htmlFor="time">Time</label>
-          <input
-            id="time"
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          />
+          <input id="time" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
         </div>
 
         <div className="field">
           <label htmlFor="lanes">Lanes</label>
           <input
             id="lanes"
-            type="number"
-            min={1}
-            value={lanes}
-            onChange={(e) => setLanes(Number(e.target.value))}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={lanesInput}
+            onChange={(e) => {
+              const digits = e.target.value.replace(/\D/g, "");
+              handleLanesChange(digits);
+            }}
           />
         </div>
 
@@ -148,10 +159,14 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
           <label htmlFor="people">Players</label>
           <input
             id="people"
-            type="number"
-            min={1}
-            value={people}
-            onChange={(e) => handlePeopleChange(Number(e.target.value))}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={peopleInput}
+            onChange={(e) => {
+              const digits = e.target.value.replace(/\D/g, "");
+              handlePeopleChange(digits);
+            }}
           />
         </div>
 

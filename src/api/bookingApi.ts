@@ -50,6 +50,5 @@ export async function createBooking(
   const json = await res.json();
   console.log("DEBUG BOOKING RESPONSE:", json);
 
-  // Handle both formats
   return json.data || json;
 }

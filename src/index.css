@@ -12,7 +12,6 @@ body {
   background: var(--bg-light);
 }
 
-
 :root {
   --pink: #ff4d6d;
   --pink-dark: #c33b52;
@@ -22,7 +21,6 @@ body {
   --text-dark: #4e3a3a;
 }
 
-
 .app {
   max-width: 430px;
   margin: 0 auto;
@@ -31,6 +29,9 @@ body {
   padding-bottom: 40px;
 }
 
+/* ===========================
+   HEADER
+=========================== */
 
 .header {
   display: flex;
@@ -46,7 +47,6 @@ body {
   font-size: 22px;
   letter-spacing: 1px;
 }
-
 
 .navicon {
   width: 28px;
@@ -68,6 +68,9 @@ body {
   border-radius: 2px;
 }
 
+/* ===========================
+   MENU
+=========================== */
 
 .menu-overlay {
   position: fixed;
@@ -83,25 +86,85 @@ body {
   background: #251c1c;
   color: var(--pink);
   height: 100%;
-  width: 70%;
-  padding: 40px 20px;
+  width: 75%;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* close icon inside menu */
+.menu-close {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-close span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--pink);
+  border-radius: 2px;
 }
 
 .menu ul {
   list-style: none;
   padding: 0;
-  margin-top: 80px;
-  font-size: 22px;
+  margin-top: 120px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+  width: 100%;
 }
 
+.menu-link {
+  background: none;
+  border: none;
+  color: var(--pink);
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.menu-link:hover {
+  color: var(--pink-dark);
+}
+
+/* ===========================
+   LOGO
+=========================== */
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 120px;
+}
+
+/* ===========================
+   BOOKING VIEW
+=========================== */
 
 .booking-view {
-  border: 4px solid var(--yellow);
+  border: 4px solid var(--purple);
   border-radius: 10px;
-  padding: 20px;
+  padding: 24px;
   margin: 16px;
   background: white;
 }
@@ -112,23 +175,14 @@ body {
   font-size: 32px;
   margin: 0 0 8px;
 }
-.logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 
 .subtitle {
-  margin: 0;
   text-align: center;
   font-size: 14px;
   color: var(--purple);
   text-transform: uppercase;
   margin-bottom: 16px;
 }
-
-
 
 .field {
   margin-bottom: 12px;
@@ -182,9 +236,12 @@ body {
   opacity: 0.4;
 }
 
-/* STRIKE BUTTON */
+/* ===========================
+   BUTTONS
+=========================== */
 
-.strike-button {
+.strike-button,
+.confirm-button {
   width: 100%;
   padding: 16px;
   background: var(--pink);
@@ -192,13 +249,14 @@ body {
   color: white;
   font-weight: bold;
   font-size: 20px;
-  border-radius: 6px;
-  margin-top: 20px;
+  border-radius: 8px;
+  margin-top: 24px;
   cursor: pointer;
   letter-spacing: 1px;
 }
 
-.strike-button:hover {
+.strike-button:hover,
+.confirm-button:hover {
   background: var(--pink-dark);
 }
 
@@ -209,33 +267,49 @@ body {
 .confirmation-view {
   border: 4px solid var(--purple);
   border-radius: 10px;
-  padding: 20px;
+  padding: 24px;
   margin: 16px;
   background: white;
+  text-align: center;
 }
 
 .confirmation-view h2 {
   color: var(--pink-dark);
-  text-align: center;
-  font-size: 32px;
-  margin: 0 0 16px;
+  font-size: 36px;
+  font-weight: 800;
+  margin: 12px 0 20px;
+  text-transform: uppercase;
 }
 
-.booking-info {
-  margin: 12px 0;
+.confirm-details-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 20px 0 12px;
 }
+
+/* detail boxes */
 
 .confirm-label {
-  font-size: 12px;
+  display: block;
+  text-align: left;
   color: var(--text-dark);
+  font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
 .confirm-box {
   border: 2px solid var(--purple);
-  padding: 8px;
+  padding: 12px;
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  text-align: left;
+  color: var(--text-dark);
 }
 
 /* TOTAL */
@@ -243,28 +317,19 @@ body {
 .total-line {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 18px;
   font-weight: bold;
-  font-size: 18px;
+}
+
+.total-line .label {
   color: var(--pink-dark);
+  text-transform: lowercase;
 }
 
-/* FINAL BUTTON */
-
-.confirm-button {
-  width: 100%;
-  padding: 16px;
-  background: var(--pink-dark);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  margin-top: 16px;
-  cursor: pointer;
-}
-
-.confirm-button:hover {
-  background: var(--pink);
+.total-line .price {
+  color: var(--pink-dark);
 }
 
 /* ===========================
@@ -301,75 +366,3 @@ body {
   color: var(--pink-dark);
   letter-spacing: 2px;
 }
-
-
-/* MENU PANEL */
-.menu {
-  background: #251c1c;
-  color: var(--pink);
-  height: 100%;
-  width: 75%;
-  padding: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  text-align: center;
-}
-
-/* HAMBURGER ICON ON LEFT — SAME AS HEADER */
-.menu-close {
-  position: absolute;
-  top: 16px;
-  left: 16px;   /* <-- LEFT instead of right */
-  
-  width: 28px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.menu-close span {
-  display: block;
-  height: 3px;
-  width: 100%;
-  background: var(--pink);
-  border-radius: 2px;
-}
-
-
-/* MENU LIST */
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 120px; /* pushes menu items downward so the icon has space */
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 100%;
-}
-
-.menu-link {
-  background: none;
-  border: none;
-  color: var(--pink);
-  font-size: 28px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  width: 100%;
-  text-align: center;
-  cursor: pointer;
-  padding: 10px 0;
-}
-
-
-.menu-link:hover {
-  color: var(--pink-dark);
-}
-

@@ -19,11 +19,11 @@ const App: React.FC = () => {
 
   const NoConfirmation = ({ onGoToBooking }: { onGoToBooking: () => void }) => (
     <section className="confirmation-view">
-      <h2>Ingen bokning hittad</h2>
-      <p>Det finns ingen bekräftelse att visa. Gör en bokning nedan!</p>
+      <h2>No booking found</h2>
+      <p>Ready to make one?</p>
   
       <button className="strike-button" onClick={onGoToBooking}>
-        Gå till bokning
+        Booking
       </button>
     </section>
   );
