@@ -12,7 +12,7 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
     onNewBooking,
   }) => {
     if (!booking) {
-      return <p>Laddar bekräftelse...</p>;
+      return <p>Loading confirmation...</p>;
     }
 
   
@@ -20,20 +20,20 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
 
   return (
     <section className="confirmation-view">
-      <img src="/logo.svg" alt="Strajk logo" />
-      <h2>Bokning bekräftad!</h2>
+      <img className="logo" src="/logo.svg" alt="Strajk logo" />
+      <h2>See you soon!</h2>
 
       <div className="card">
-      <p><strong>Bokningsnummer:</strong> {booking.bookingId}</p>
-        <p><strong>Datum & tid:</strong> {dateTime}</p>
-        <p><strong>Banor:</strong> {booking.lanes}</p>
-        <p><strong>Spelare:</strong> {booking.people}</p>
-        <p><strong>Skor:</strong> {booking.shoes.join(", ")}</p>
-        <p><strong>Pris:</strong> {booking.price} kr</p>
+      <p><strong>Bookingnumber:</strong> {booking.bookingId}</p>
+        <p><strong>Date and time:</strong> {dateTime}</p>
+        <p><strong>Lanes:</strong> {booking.lanes}</p>
+        <p><strong>Players:</strong> {booking.people}</p>
+        <p><strong>Shoes:</strong> {booking.shoes.join(", ")}</p>
+        <p><strong>Total:</strong> {booking.price} kr</p>
       </div>
 
-      <button onClick={onNewBooking} className="new-booking-button">
-        Gör en ny bokning
+      <button onClick={onNewBooking} className="strike-button">
+        Make another booking
       </button>
     </section>
   );

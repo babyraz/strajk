@@ -14,8 +14,10 @@ async function getApiKey(): Promise<string> {
     throw new Error("Kunde inte hämta API-nyckel");
   }
 
-  const data = await res.json(); // { key: "strajk-vKkkQHqQboi7c6JF" }
-  const key = data.key;
+  const data = await res.json();
+  console.log("DEBUG KEY RESPONSE:", data);
+
+  const key = data.key || data.data?.key;
 
   if (!key) {
     throw new Error("API-nyckeln saknas i svaret!");
@@ -25,11 +27,12 @@ async function getApiKey(): Promise<string> {
   return key;
 }
 
+
 export async function createBooking(
   booking: BookingRequest
 ): Promise<ApiResponse> {
   const apiKey = await getApiKey();
-  
+
   const res = await fetch(`${BASE_URL}/booking`, {
     method: "POST",
     headers: {
@@ -44,6 +47,9 @@ export async function createBooking(
     throw new Error(errorData || "Misslyckades med bokningen");
   }
 
-  const data: ApiResponse = await res.json();
-  return data;
+  const json = await res.json();
+  console.log("DEBUG BOOKING RESPONSE:", json);
+
+  // Handle both formats
+  return json.data || json;
 }

@@ -11,7 +11,14 @@ export const Menu: React.FC<MenuProps> = ({ open, onClose, onNavigate }) => {
   return (
     <div className="menu-overlay" onClick={onClose}>
       <nav className="menu" onClick={(e) => e.stopPropagation()}>
+        <button className="menu-close" onClick={onClose} aria-label="Stäng meny">
+          <span />
+          <span />
+          <span />
+        </button>
         <ul>
+
+
           <li>
             <button
               className="menu-link"

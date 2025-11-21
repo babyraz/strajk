@@ -110,11 +110,11 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
 
   return (
     <section className="booking-view">
-      <img src="/logo.svg" alt="Strajk logo" />
-      <h2>Boka bana</h2>
+      <img className="logo" src="/logo.svg" alt="Strajk logo" />
+      <h2>Booking</h2>
       <form onSubmit={handleSubmit}>
         <div className="field">
-          <label htmlFor="date">Datum</label>
+          <label htmlFor="date">Date</label>
           <input
             id="date"
             type="date"
@@ -124,7 +124,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
         </div>
 
         <div className="field">
-          <label htmlFor="time">Tid</label>
+          <label htmlFor="time">Time</label>
           <input
             id="time"
             type="time"
@@ -134,7 +134,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
         </div>
 
         <div className="field">
-          <label htmlFor="lanes">Banor</label>
+          <label htmlFor="lanes">Lanes</label>
           <input
             id="lanes"
             type="number"
@@ -145,7 +145,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
         </div>
 
         <div className="field">
-          <label htmlFor="people">Spelare</label>
+          <label htmlFor="people">Players</label>
           <input
             id="people"
             type="number"
@@ -155,12 +155,11 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
           />
         </div>
 
-        {/* Skor visas när man valt antal spelare */}
         <div className="shoes-section">
-          <h3>Skostorlekar</h3>
+          <h3>Shoe sizes</h3>
           {Array.from({ length: people }).map((_, index) => (
             <div className="field" key={index}>
-              <label>Spelare {index + 1}</label>
+              <label>Player {index + 1}</label>
               <input
                 type="number"
                 min={20}
@@ -183,7 +182,7 @@ export const BookingView: React.FC<BookingViewProps> = ({ onBookingSuccess }) =>
         {error && <p className="error">{error}</p>}
 
         <button type="submit" disabled={loading} className="strike-button">
-          {loading ? "Bokar..." : "Strike!"}
+          {loading ? "Booking..." : "Strike!"}
         </button>
       </form>
     </section>
